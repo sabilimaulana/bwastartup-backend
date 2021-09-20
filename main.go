@@ -1,8 +1,12 @@
 package main
 
 import (
+	"bwastartup/handler"
+	"bwastartup/user"
+	"fmt"
 	"log"
 
+	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -10,22 +14,21 @@ import (
 func main() {
 
 	dsn := "root:@tcp(127.0.0.1:3306)/bwastartup?charset=utf8mb4&parseTime=True&loc=Local"
-	_, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	// fmt.Println("Connection to database is success")
+	fmt.Println("Connection to database is success")
 
-	// userRepository := user.NewRepository(db)
-	// userService := user.NewService(userRepository)
+	userRepository := user.NewRepository(db)
+	userService := user.NewService(userRepository)
+	userHandler := handler.NewHandler(userService)
 
-	// userInput := user.RegisterUserInput{
-	// 	Name:       "Shanks",
-	// 	Occupation: "Pirate",
-	// 	Email:      "shanks@gmail.com",
-	// 	Password:   "123456",
-	// }
+	router := gin.Default()
 
-	// userService.RegisterUser(userInput)
+	v1 := router.Group("/api/v1")
+	v1.POST("/users", userHandler.RegisterUser)
+
+	router.Run()
 }
