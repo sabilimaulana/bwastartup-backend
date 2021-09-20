@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"gorm.io/driver/mysql"
@@ -16,13 +15,17 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	fmt.Println("Connection to database is success")
+	// fmt.Println("Connection to database is success")
 
 	// userRepository := user.NewRepository(db)
+	// userService := user.NewService(userRepository)
 
-	// user := user.User{
-	// 	Name: "Luffy",
+	// userInput := user.RegisterUserInput{
+	// 	Name:       "Shanks",
+	// 	Occupation: "Pirate",
+	// 	Email:      "shanks@gmail.com",
+	// 	Password:   "123456",
 	// }
 
-	// userRepository.Save(user)
+	// userService.RegisterUser(userInput)
 }
