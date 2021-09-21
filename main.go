@@ -25,6 +25,17 @@ func main() {
 	userService := user.NewService(userRepository)
 	userHandler := handler.NewHandler(userService)
 
+	// userByEmail, err := userRepository.FindByEmail("zoroa@gmail.com")
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// }
+
+	// if userByEmail.ID == 0 {
+	// 	fmt.Println("User tidak ditemukan")
+	// } else {
+	// 	fmt.Println(userByEmail.Name)
+	// }
+
 	router := gin.Default()
 
 	v1 := router.Group("/api/v1")
