@@ -133,3 +133,7 @@ func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
 	response := helper.APIResponse(metaMessage, http.StatusOK, "success", data)
 	c.JSON(http.StatusUnprocessableEntity, response)
 }
+
+func (h *userHandler) UploadHandler(c *gin.Context) {
+
+}
