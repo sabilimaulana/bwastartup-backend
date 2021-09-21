@@ -25,22 +25,11 @@ func main() {
 	userService := user.NewService(userRepository)
 	userHandler := handler.NewHandler(userService)
 
-	// userInput := user.LoginInput{
-	// 	Email:    "zoro@gmail.com",
-	// 	Password: "123456",
-	// }
-
-	// user, err := userService.Login(userInput)
-	// if err != nil {
-	// 	fmt.Println(err.Error())
-	// } else {
-	// 	fmt.Println(user.Name)
-	// }
-
 	router := gin.Default()
 
 	v1 := router.Group("/api/v1")
 	v1.POST("/users", userHandler.RegisterUser)
+	v1.POST("/sessions", userHandler.Login)
 
 	router.Run()
 }
