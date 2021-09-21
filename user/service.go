@@ -9,7 +9,7 @@ import (
 type Service interface {
 	RegisterUser(input RegisterUserInput) (User, error)
 	Login(input LoginInput) (User, error)
-	IsEmailAvailable(input CheckEmailInput) (bool error)
+	IsEmailAvailable(input CheckEmailInput) (bool, error)
 }
 
 type service struct {

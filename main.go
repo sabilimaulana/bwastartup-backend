@@ -30,6 +30,7 @@ func main() {
 	v1 := router.Group("/api/v1")
 	v1.POST("/users", userHandler.RegisterUser)
 	v1.POST("/sessions", userHandler.Login)
+	v1.POST("/email_checkers", userHandler.CheckEmailAvailability)
 
 	router.Run()
 }
