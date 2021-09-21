@@ -25,6 +25,14 @@ func main() {
 	userService := user.NewService(userRepository)
 	userHandler := handler.NewHandler(userService)
 
+	// authService := auth.NewService()
+	// token, err := authService.GenerateToken(1)
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// } else {
+	// 	fmt.Println(token)
+	// }
+
 	router := gin.Default()
 
 	v1 := router.Group("/api/v1")
