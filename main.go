@@ -33,6 +33,17 @@ func main() {
 
 	// campaignRepository := campaign.NewRepository(db)
 
+	// campaigns, err := campaignRepository.FindAll()
+	// // campaignsByUserID, err := campaignRepository.FindByUserID(4)
+	// if err != nil {
+	// 	fmt.Print(err.Error())
+	// }
+
+	// for _, c := range campaignsByUserID {
+	// 	fmt.Println(c.Name)
+	// 	fmt.Println(c.UserID)
+	// }
+
 	router := gin.Default()
 
 	v1 := router.Group("/api/v1")
