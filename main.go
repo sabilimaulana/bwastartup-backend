@@ -34,14 +34,18 @@ func main() {
 	// campaignRepository := campaign.NewRepository(db)
 
 	// campaigns, err := campaignRepository.FindAll()
-	// // campaignsByUserID, err := campaignRepository.FindByUserID(4)
+	// // campaignsByUserID, err := campaignRepository.FindByUserID(5)
 	// if err != nil {
 	// 	fmt.Print(err.Error())
 	// }
 
-	// for _, c := range campaignsByUserID {
+	// for _, c := range campaigns {
 	// 	fmt.Println(c.Name)
 	// 	fmt.Println(c.UserID)
+	// 	fmt.Println(c.CampaignImages)
+	// 	if len(c.CampaignImages) > 0 {
+	// 		fmt.Println(c.CampaignImages[0].FileName)
+	// 	}
 	// }
 
 	router := gin.Default()
