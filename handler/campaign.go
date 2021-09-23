@@ -3,10 +3,13 @@ package handler
 import (
 	"bwastartup/campaign"
 	"bwastartup/helper"
+	"bwastartup/user"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type campaignHandler struct {
@@ -50,4 +53,42 @@ func (h *campaignHandler) GetCampaign(c *gin.Context) {
 
 	response := helper.APIResponse("Campaign detail", http.StatusOK, "success", campaign.FormatCampaignDetail(campaignDetail))
 	c.JSON(http.StatusOK, response)
+}
+
+func (h *campaignHandler) CreateCampaign(c *gin.Context) {
+	var input campaign.CreateCampaignInput
+
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		fmt.Println(err.Error())
+		if _, ok := err.(*validator.InvalidValidationError); ok {
+			errors := helper.FormatValidationError(err)
+
+			errorMessage := gin.H{"errors": errors}
+
+			response := helper.APIResponse("Create campaign failed", http.StatusUnprocessableEntity, "error", errorMessage)
+
+			c.JSON(http.StatusUnprocessableEntity, response)
+
+			return
+		} else {
+			errorMessage := gin.H{"errors": err.Error()}
+			response := helper.APIResponse("Login failed", http.StatusUnprocessableEntity, "error", errorMessage)
+			c.JSON(http.StatusUnprocessableEntity, response)
+			return
+		}
+	}
+	currentUser := c.MustGet("currentUser").(user.User)
+	input.User = currentUser
+
+	newCampaign, err := h.service.CreateCampaign(input)
+	if err != nil {
+		response := helper.APIResponse("Failed to create campaign", http.StatusUnprocessableEntity, "error", nil)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	response := helper.APIResponse("Success to create campaign", http.StatusOK, "success", campaign.FormatCampaign(newCampaign))
+	c.JSON(http.StatusOK, response)
+
 }
