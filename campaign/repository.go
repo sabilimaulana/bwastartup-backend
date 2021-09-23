@@ -51,5 +51,5 @@ func (r *repository) FindByID(ID int) (Campaign, error) {
 		return campaign, errors.New("no campaign found on that id")
 	}
 
-	return campaign, err
+	return campaign, nil
 }
