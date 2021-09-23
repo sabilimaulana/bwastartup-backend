@@ -32,8 +32,9 @@ func main() {
 	userHandler := handler.NewHandler(userService, authService)
 
 	// campaignRepository := campaign.NewRepository(db)
+	// campaignService := campaign.NewService(campaignRepository)
 
-	// campaigns, err := campaignRepository.FindAll()
+	// campaigns, err := campaignService.FindCampaigns(8)
 	// // campaignsByUserID, err := campaignRepository.FindByUserID(5)
 	// if err != nil {
 	// 	fmt.Print(err.Error())
