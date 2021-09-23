@@ -38,6 +38,24 @@ func main() {
 
 	router := gin.Default()
 
+	user := user.User{
+		ID: 11,
+	}
+
+	input := campaign.CreateCampaignInput{
+		Name:             "Bantu Robin beli buku sejarah",
+		ShortDescription: "Biar Robin bisa makin pinter.",
+		Description:      "Kalo di sini nulis deskripsinya bisa lebih panjang lagi",
+		GoalAmount:       5000000,
+		Perks:            "benefit pertama, benefit kedua, perks ketiga",
+		User:             user,
+	}
+
+	_, err = campaignService.CreateCampaign(input)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	router.Static("/images", "./images")
 
 	v1 := router.Group("/api/v1")
