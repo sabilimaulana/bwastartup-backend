@@ -36,10 +36,6 @@ func main() {
 	campaignService := campaign.NewService(campaignRepository)
 	campaignHandler := handler.NewCampaignHandler(campaignService)
 
-	// input := campaign.GetCampaignDetailInput{ID: 1}
-	// campaignDetail, _ := campaignService.GetCampaignByID(input)
-	// fmt.Println(campaignDetail)
-
 	router := gin.Default()
 
 	router.Static("/images", "./images")
