@@ -29,7 +29,7 @@ func (r *repository) GetByCampaignID(CampaignID int) ([]Transaction, error) {
 func (r *repository) GetByUserID(userID int) ([]Transaction, error) {
 	var transactions []Transaction
 
-	err := r.db.Debug().Preload("Campaign.CampaignImages", "campaign_images.is_primary = 1").Where("user_id = ?", userID).Find(&transactions).Error
+	err := r.db.Debug().Preload("Campaign.CampaignImages", "campaign_images.is_primary = 1").Where("user_id = ?", userID).Order("id desc").Find(&transactions).Error
 	if err != nil {
 		return transactions, err
 	}
