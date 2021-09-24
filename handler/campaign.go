@@ -180,6 +180,8 @@ func (h *campaignHandler) UploadImage(c *gin.Context) {
 		return
 	}
 
+	input.User = currentUser
+
 	_, err = h.service.SaveCampaignImage(input, path)
 	if err != nil {
 		data := gin.H{"is_uploaded": false}
