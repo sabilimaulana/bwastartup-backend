@@ -28,6 +28,7 @@ func main() {
 	fmt.Println("Connection to database is success")
 
 	authService := auth.NewService()
+
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
 	userHandler := handler.NewHandler(userService, authService)
@@ -35,6 +36,8 @@ func main() {
 	campaignRepository := campaign.NewRepository(db)
 	campaignService := campaign.NewService(campaignRepository)
 	campaignHandler := handler.NewCampaignHandler(campaignService)
+
+	// transactionRepository := transaction.NewRepository(db)
 
 	router := gin.Default()
 
