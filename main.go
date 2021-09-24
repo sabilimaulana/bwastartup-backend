@@ -49,6 +49,7 @@ func main() {
 	v1.GET("/campaigns", campaignHandler.GetCampaigns)
 	v1.GET("/campaigns/:id", campaignHandler.GetCampaign)
 	v1.POST("/campaigns", authMiddleware(authService, userService), campaignHandler.CreateCampaign)
+	v1.PUT("/campaigns/:id", authMiddleware(authService, userService), campaignHandler.UpdateCampaign)
 
 	router.Run()
 }
