@@ -3,6 +3,7 @@ package transaction
 import "gorm.io/gorm"
 
 type Repository interface {
+	GetByCampaignID(campaignID int) ([]Transaction, error)
 }
 
 type repository struct {
