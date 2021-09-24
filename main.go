@@ -39,7 +39,7 @@ func main() {
 	campaignHandler := handler.NewCampaignHandler(campaignService)
 
 	transactionRepository := transaction.NewRepository(db)
-	transactionService := transaction.NewService(transactionRepository)
+	transactionService := transaction.NewService(transactionRepository, campaignRepository)
 	transactionHandler := handler.NewTransactionHandler(transactionService)
 
 	router := gin.Default()
