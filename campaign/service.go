@@ -1,6 +1,7 @@
 package campaign
 
 import (
+	"errors"
 	"strconv"
 
 	"github.com/gosimple/slug"
@@ -67,9 +68,14 @@ func (s *service) CreateCampaign(input CreateCampaignInput) (Campaign, error) {
 }
 
 func (s *service) UpdateCampaign(inputID GetCampaignDetailInput, inputData CreateCampaignInput) (Campaign, error) {
+
 	campaign, err := s.repository.FindByID(inputID.ID)
 	if err != nil {
 		return campaign, err
+	}
+
+	if campaign.UserID != inputData.User.ID {
+		return campaign, errors.New("no an owner of the campaign")
 	}
 
 	campaign.Name = inputData.Name
@@ -77,7 +83,6 @@ func (s *service) UpdateCampaign(inputID GetCampaignDetailInput, inputData Creat
 	campaign.Description = inputData.Description
 	campaign.Perks = inputData.Perks
 	campaign.GoalAmount = inputData.GoalAmount
-	campaign.Slug = slug.Make(inputData.Name + "-" + strconv.Itoa(campaign.UserID))
 
 	updatedCampaign, err := s.repository.Save(campaign)
 	if err != nil {
