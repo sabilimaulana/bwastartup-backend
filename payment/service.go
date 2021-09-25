@@ -2,7 +2,6 @@ package payment
 
 import (
 	"bwastartup/user"
-	"log"
 	"strconv"
 
 	"github.com/veritrans/go-midtrans"
@@ -21,8 +20,8 @@ func NewService() *service {
 
 func (s *service) GetPaymentURL(transaction Transaction, user user.User) (string, error) {
 	midclient := midtrans.NewClient()
-	midclient.ServerKey = "YOUR-VT-SERVER-KEY"
-	midclient.ClientKey = "YOUR-VT-CLIENT-KEY"
+	midclient.ServerKey = ""
+	midclient.ClientKey = ""
 	midclient.APIEnvType = midtrans.Sandbox
 
 	snapGateway := midtrans.SnapGateway{
@@ -40,8 +39,8 @@ func (s *service) GetPaymentURL(transaction Transaction, user user.User) (string
 		},
 	}
 
-	log.Println("GetToken:")
 	snapTokenResp, err := snapGateway.GetToken(snapReq)
+
 	if err != nil {
 		return "", err
 	}
