@@ -4,9 +4,11 @@ import (
 	"bwastartup/helper"
 	"bwastartup/transaction"
 	"bwastartup/user"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type transactionHandler struct {
@@ -52,5 +54,41 @@ func (h *transactionHandler) GetUserTransactions(c *gin.Context) {
 	}
 
 	response := helper.APIResponse("Successfully get user's transactions", http.StatusOK, "success", transaction.FormatUserTransactions(transactions))
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *transactionHandler) CreateTransaction(c *gin.Context) {
+	var input transaction.CreateTransactionInput
+
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		fmt.Println(err.Error())
+		if _, ok := err.(*validator.InvalidValidationError); ok {
+			errors := helper.FormatValidationError(err)
+
+			errorMessage := gin.H{"errors": errors}
+
+			response := helper.APIResponse("Failed to create transaction", http.StatusUnprocessableEntity, "error", errorMessage)
+
+			c.JSON(http.StatusUnprocessableEntity, response)
+
+			return
+		} else {
+			errorMessage := gin.H{"errors": err.Error()}
+			response := helper.APIResponse("Failed to create transaction", http.StatusUnprocessableEntity, "error", errorMessage)
+			c.JSON(http.StatusUnprocessableEntity, response)
+			return
+		}
+	}
+	currentUser := c.MustGet("currentUser").(user.User)
+	input.User = currentUser
+
+	newTransaction, err := h.service.CreateTransaction(input)
+	if err != nil {
+		response := helper.APIResponse("Failed to create transaction", http.StatusUnprocessableEntity, "error", nil)
+		c.JSON(http.StatusUnprocessableEntity, response)
+	}
+
+	response := helper.APIResponse("Successfully create transaction", http.StatusOK, "success", newTransaction)
 	c.JSON(http.StatusOK, response)
 }

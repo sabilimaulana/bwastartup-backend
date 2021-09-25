@@ -60,6 +60,7 @@ func main() {
 
 	v1.GET("/campaigns/:id/transactions", authMiddleware(authService, userService), transactionHandler.GetCampaignTransactions)
 	v1.GET("/transactions", authMiddleware(authService, userService), transactionHandler.GetUserTransactions)
+	v1.POST("/transactions", authMiddleware(authService, userService), transactionHandler.CreateTransaction)
 
 	router.Run()
 }
