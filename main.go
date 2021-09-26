@@ -14,6 +14,7 @@ import (
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -46,6 +47,7 @@ func main() {
 
 	router := gin.Default()
 
+	router.Use(cors.Default())
 	router.Static("/images", "./images")
 
 	v1 := router.Group("/api/v1")
