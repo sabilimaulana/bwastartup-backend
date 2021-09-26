@@ -55,6 +55,7 @@ func main() {
 	v1.POST("/sessions", userHandler.Login)
 	v1.POST("/email_checkers", userHandler.CheckEmailAvailability)
 	v1.POST("/avatars", authMiddleware(authService, userService), userHandler.UploadAvatar)
+	v1.GET("/users/fetch", authMiddleware(authService, userService), userHandler.FetchUser)
 
 	v1.GET("/campaigns", campaignHandler.GetCampaigns)
 	v1.GET("/campaigns/:id", campaignHandler.GetCampaign)
