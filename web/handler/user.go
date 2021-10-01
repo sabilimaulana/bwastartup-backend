@@ -2,7 +2,6 @@ package handler
 
 import (
 	"bwastartup/user"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,8 +18,7 @@ func NewUserHandler(userService user.Service) *userHandler {
 func (h *userHandler) Index(c *gin.Context) {
 	users, err := h.userService.GetAllUser()
 	if err != nil {
-		fmt.Println(err.Error())
-		//Under Construction
+		c.HTML(http.StatusInternalServerError, "error.html",nil)
 		return
 	}
 
