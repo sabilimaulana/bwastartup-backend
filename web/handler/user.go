@@ -2,7 +2,6 @@ package handler
 
 import (
 	"bwastartup/user"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -38,7 +37,8 @@ func (h *userHandler) Create(c *gin.Context) {
 
 	err := c.ShouldBind(&input)
 	if err != nil {
-		fmt.Println(err.Error())
+		input.Error = err
+		c.HTML(http.StatusOK, "user_new.html", input)
 		return
 	}
 
@@ -51,7 +51,7 @@ func (h *userHandler) Create(c *gin.Context) {
 
 	_, err = h.userService.RegisterUser(registerInput)
 	if err != nil {
-		fmt.Println(err.Error())
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
 		return
 	}
 

@@ -16,9 +16,10 @@ type CheckEmailInput struct {
 	Email string `json:"email" binding:"required,email"`
 }
 
-type FormCreateUserInput struct{
-	Name string `form:"name" binding:"required"`
-	Email string `form:"email" binding:"required"`
+type FormCreateUserInput struct {
+	Name       string `form:"name" binding:"required"`
+	Email      string `form:"email" binding:"required,email"`
 	Occupation string `form:"occupation" binding:"required"`
-	Passowrd string `form:"password" binding:"required"`
+	Passowrd   string `form:"password" binding:"required"`
+	Error      error
 }
