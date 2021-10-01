@@ -48,7 +48,7 @@ func main() {
 	transactionService := transaction.NewService(transactionRepository, campaignRepository, paymentService)
 	transactionHandler := handler.NewTransactionHandler(transactionService)
 
-	userWebHandler := webHandler.NewUserHandler()
+	userWebHandler := webHandler.NewUserHandler(userService)
 
 	router := gin.Default()
 
@@ -59,7 +59,6 @@ func main() {
 	router.Static("/css", "./web/assets/css")
 	router.Static("/js", "./web/assets/js")
 	router.Static("/webfonts", "./images/web/asset/webfonts")
-
 
 	v1 := router.Group("/api/v1")
 	v1.POST("/users", userHandler.RegisterUser)
