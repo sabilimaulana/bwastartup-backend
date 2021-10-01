@@ -79,6 +79,8 @@ func main() {
 	v1.POST("/transactions/notification", transactionHandler.GetNotification)
 
 	router.GET("/users", userWebHandler.Index)
+	router.GET("/users/new", userWebHandler.New)
+
 
 	router.Run()
 }
