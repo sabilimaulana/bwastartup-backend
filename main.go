@@ -56,6 +56,10 @@ func main() {
 
 	router.Use(cors.Default())
 	router.Static("/images", "./images")
+	router.Static("/css", "./web/assets/css")
+	router.Static("/js", "./web/assets/js")
+	router.Static("/webfonts", "./images/web/asset/webfonts")
+
 
 	v1 := router.Group("/api/v1")
 	v1.POST("/users", userHandler.RegisterUser)
