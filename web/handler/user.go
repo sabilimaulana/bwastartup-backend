@@ -2,7 +2,6 @@ package handler
 
 import (
 	"bwastartup/user"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -64,13 +63,21 @@ func (h *userHandler) Edit(c *gin.Context) {
 	idParam := c.Param("id")
 	userID, _ := strconv.Atoi(idParam)
 
-	user, err := h.userService.GetUserByID(userID)
+	registeredUser, err := h.userService.GetUserByID(userID)
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "error.html", nil)
 		return
 	}
 
-	c.HTML(http.StatusOK, "user_edit.html", user)
+	input := user.FormUpdateUserInput{
+		Error:      err,
+		ID:         registeredUser.ID,
+		Name:       registeredUser.Name,
+		Email:      registeredUser.Email,
+		Occupation: registeredUser.Occupation,
+	}
+
+	c.HTML(http.StatusOK, "user_edit.html", input)
 }
 
 func (h *userHandler) Update(c *gin.Context) {
@@ -80,7 +87,8 @@ func (h *userHandler) Update(c *gin.Context) {
 	var input user.FormUpdateUserInput
 	err := c.ShouldBind(&input)
 	if err != nil {
-		fmt.Println(err.Error())
+		input.Error = err
+		c.HTML(http.StatusOK, "user_edit.html", input)
 		return
 	}
 
