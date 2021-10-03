@@ -102,3 +102,10 @@ func (h *userHandler) Update(c *gin.Context) {
 
 	c.Redirect(http.StatusFound, "/users")
 }
+
+func (h *userHandler) NewAvatar(c *gin.Context) {
+	idParam := c.Param("id")
+	userID, _ := strconv.Atoi(idParam)
+
+	c.HTML(http.StatusOK, "user_avatar.html", gin.H{"ID": userID})
+}
