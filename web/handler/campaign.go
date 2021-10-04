@@ -149,3 +149,41 @@ func (h *campaignHandler) Edit(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "campaign_edit.html", input)
 }
+
+func (h *campaignHandler) Update(c *gin.Context) {
+	idParam := c.Param("id")
+	id, _ := strconv.Atoi(idParam)
+
+	var input campaign.FormUpdateCampaignInput
+	err := c.ShouldBind(&input)
+	if err != nil {
+		input.Error = err
+		input.ID = id
+
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+	existingCampaign, err := h.campaignService.GetCampaignByID(campaign.GetCampaignDetailInput{ID: id})
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+	updateInput := campaign.CreateCampaignInput{
+		Name:             input.Name,
+		ShortDescription: input.ShortDescription,
+		Description:      input.Description,
+		GoalAmount:       input.GoalAmount,
+		Perks:            input.Perks,
+		User:             existingCampaign.User,
+	}
+
+	_, err = h.campaignService.UpdateCampaign(campaign.GetCampaignDetailInput{ID: id}, updateInput)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+	c.Redirect(http.StatusFound, "/campaigns")
+
+}
